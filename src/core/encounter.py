@@ -4,35 +4,50 @@
 
     TODO
     Build out base encounter tool
+    Actions
+        Standard
+        Move
+            Types
+        Minor
+    Disablers
+        What affect actions?
+    Map?
 
 
 """
 
-class Encounter( object ):
-    """ An Encounter, involving PCs and NPCs """
+import uuid
 
-    __slots__ = [ "__pcs", "__npcs" ]
+from .character import Character
+
+
+class Encounter( object ):
+    """ An Encounter, involving Characters 
+    
+    """
+
+
+    __slots__ = [ "__characters" ]
 
     
-    def __init__( self ):
-        
-        self.__npcs = []
-        self.__pcs = []
+    def __init__( self ):        
+        self.__characters = []
 
 
-    def add_pc( self, name, initiative ):
+    def __str__( self ):
+        return str( self.__characters )
+
+
+    def add( self, character ):
         """ An Encounter, involving PCs and NPCs
 
         :param name: A string, the person's name.
         :param age: An int, the person's age.
         """
 
-        self.__pcs.append( 
-            [
-                name,
-                initiative
-            ]
-        )
+        character.uuid = uuid.uuid1
+
+        self.__characters.append( character )
 
 
     def initialize( self ):
