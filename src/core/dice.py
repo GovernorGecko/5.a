@@ -1,8 +1,3 @@
-"""
-
-    dice.py
-
-"""
 
 from random import randrange
 
@@ -23,6 +18,11 @@ class Dice( object ):
 
     def roll( self ):
         """ Roll
+
+        Returns
+        -------
+        int
+            The rolled value of this die.
         
         """
         return ( self._count * ( randrange( self._size ) + 1 ) ) + self._modifier
