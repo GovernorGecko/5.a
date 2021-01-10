@@ -13,15 +13,16 @@ class Character( object ):
     """
 
 
-    __slots__ = [ "_initiative", "_name", "initiative", "uuid" ]
+    __slots__ = [ "_initiative", "_managed", "_name", "_uuid", "initiative" ]
 
 
-    def __init__( self, name, initiative ):
+    def __init__( self, name, initiative, managed = True ):
         self._initiative = initiative
+        self._managed = managed
         self._name = name
+        self._uuid = None
         self.initiative = 0
-        self.uuid = ""
 
 
     def __str__( self ):
-        return f"{self._name} {self.initiative} {self.uuid}"
+        return f"{self._name} {self.initiative} {self._uuid}"

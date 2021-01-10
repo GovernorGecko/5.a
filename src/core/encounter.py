@@ -2,20 +2,9 @@
 
     encounter.py
 
-    TODO
-    Build out base encounter tool
-    Actions
-        Standard
-        Move
-            Types
-        Minor
-    Disablers
-        What affect actions?
-    Map?
-
-
 """
 
+import operator
 import uuid
 
 from .character import Character
@@ -46,7 +35,7 @@ class Encounter( object ):
         """
 
         # Create a UUID for this Character
-        character.uuid = uuid.uuid1()
+        character._uuid = uuid.uuid1()
 
         # Add to our list
         self.__characters.append( character )
@@ -58,9 +47,34 @@ class Encounter( object ):
         """
 
         # Turn?
-        if self.__turn >= 0 and self.__turn < len( self.__characters ):
+        if self.has_characters() and self.__turn >= 0 and self.__turn < len( self.__characters ):
             return self.__characters[ self.__turn ]
         return None
+
+
+    def get_unmanaged_characters( self ):
+        """ Returns a list of our unmanaged Character objects
+
+        """
+
+        # List to Return
+        unmanaged_characters = []
+
+        # We have any characters?
+        if self.has_characters:
+            for character in self.__characters:
+                if not character.managed:
+                    unmanaged_characters.append( character )
+
+        # Return
+        return unmanaged_characters        
+
+
+    def has_characters( self ):
+        """ Have Characters in our List?
+
+        """
+        return len( self.__characters ) > 0
 
 
     def initialize( self ):
@@ -69,7 +83,7 @@ class Encounter( object ):
         """
 
         # We have enough characters?
-        if len( self.__characters ) == 0:
+        if not self.has_characters():
             return False
 
         # Reset local turn
@@ -77,7 +91,33 @@ class Encounter( object ):
 
         # Iterate our characters, rolling init
         for character in self.__characters:
-            character.initiative = character._initiative.roll()
+            if character._managed:
+                character.initiative = character._initiative.roll()
+
+        # Sort our Characters by Initiative
+        self.__characters.sort( key = operator.attrgetter( "initiative" ), reverse = True )
+
+
+    def remove( self, character ):
+        """ Remove a Character
+
+        """
+
+        # We have enough characters?
+        if not self.has_characters():
+            return False
+
+        # We have a uuid?
+        elif not hasattr( character, "_uuid" ):
+            return False
+
+        # Iterate, trying to remove.
+        if character in self.__characters:
+            self.__characters.remove( character )
+            return True
+
+        # No workie
+        return False
 
     
     def step( self ):
