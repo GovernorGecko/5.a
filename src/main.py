@@ -7,7 +7,7 @@
         Don't rely on input/output on console
         Dice Object Tokenizer https://docs.python.org/3/library/re.html
 
-class Spam(object):
+
     def __init__(self, description, value):
         self.description = description
         self.value = value
@@ -21,14 +21,6 @@ class Spam(object):
         if not d: raise Exception("description cannot be empty")
         self._description = d
 
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, v):
-        if not (v > 0): raise Exception("value must be greater than zero")
-        self._value = v
 
     Actions
         Standard
