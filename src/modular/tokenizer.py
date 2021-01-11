@@ -1,3 +1,5 @@
+# https://medium.com/factory-mind/regex-tutorial-a-simple-cheatsheet-by-examples-649dc1c3f285
+# https://www.debuggex.com/cheatsheet/regex/python
 # https://docs.python.org/3/library/re.html
 
 from dataclasses import dataclass
@@ -11,7 +13,7 @@ class Token():
     _column: int
 
 
-def tokenize( code, keywords = {} ):
+def tokenize( code, keywords = {}, specifications = [] ):
     """ Tokenize
 
     Parameters
@@ -24,7 +26,7 @@ def tokenize( code, keywords = {} ):
     """
 
     # What to look out for.
-    token_specification = [
+    token_specification = specifications + [
         ( 'NUMBER',   r"\d+(\.\d*)?" ),  # Integer or decimal number
         ( 'ASSIGN',   r"=" ),            # Assignment operator
         ( 'END',      r";"),             # Statement terminator
@@ -57,4 +59,5 @@ def tokenize( code, keywords = {} ):
             continue
         elif kind == 'MISMATCH':
             raise RuntimeError( f'{value!r} unexpected on line {line_num}' )
+
         yield Token( kind, value, line_num, column )

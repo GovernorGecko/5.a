@@ -4,7 +4,6 @@
 
     TODO
     Encounter Tool
-        Don't rely on input/output on console
         Dice Object Tokenizer https://docs.python.org/3/library/re.html
 
 
