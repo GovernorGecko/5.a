@@ -154,9 +154,14 @@ class Encounter( object ):
 
         """
 
-        # Iterate, trying to remove.
+        # Remove, if exists.
         if character in self.__characters:
             self.__characters.remove( character )
+
+            # Running? And is this our turn?
+            if self._running and self.get_current_turn()[ 2 ] == character:
+                self.__turn += 1
+
             return True, ""
 
         # No workie

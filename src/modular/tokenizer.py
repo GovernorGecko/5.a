@@ -22,6 +22,8 @@ def tokenize( code, keywords = {}, specifications = [] ):
         String to parse
     keywords Dictionary        
         {'IF', 'THEN', 'ENDIF', 'FOR', 'NEXT', 'GOSUB', 'RETURN'}
+    specifications List of Tuples
+        [ ( "NAME", "regex" ) ]
 
     """
 

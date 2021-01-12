@@ -1,12 +1,6 @@
 """
 
-    Main
-
-    TODO
-    Encounter Tool
-        Dice Object Tokenizer https://docs.python.org/3/library/re.html
-
-
+    NOTE
     def __init__(self, description, value):
         self.description = description
         self.value = value
@@ -21,6 +15,8 @@
         self._description = d
 
 
+    TODO
+    Encounter Tool
     Actions
         Standard
         Move
@@ -28,31 +24,44 @@
         Minor
     Disablers
         What affect actions?
-    Map?
-    
+    Map?    
 
 """
 
 import os
 
-from core.character import Character
-from core.dice import Dice
-from core.encounter import Encounter
+from src.core.character import Character
+from src.core.dice import Dice
+from src.core.encounter import Encounter
 
 dir_path = os.path.dirname( os.path.realpath( __file__ ) )
 
 e = Encounter()
-e.add( Character( "Goblin", Dice( 1, 20, 2 ) ) )
-e.add( Character( "Orc", Dice( 1, 20, 0 ) ) )
-c = Character( "Lizard", Dice( 1, 20, 1 ), False )
+e.add( Character( "Goblin", Dice( "d20+2" ) ) )
+e.add( Character( "Orc", Dice( "d20" ) ) )
+c = Character( "Lizard", Dice( "d20+1" ), False )
 e.add( c )
 cs = e.get_unmanaged_characters()
 cs[ 0 ].initiative = 12
 e.initialize()
-print( e )
+#print( e )
 #e.remove( c )
 #print( e )
-e.step()
+
+while True:
+
+    worked, message, character = e.get_current_turn()
+
+    i = input( f"{character._name}?" )
+
+    if i == "x":
+        break
+    
+    elif i == "d":
+        e.remove( character )
+
+
+    e.step()
 
 """
 while True:
