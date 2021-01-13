@@ -5,6 +5,10 @@
 from dataclasses import dataclass
 import re
 
+
+__all__ = [ "Token" ]
+
+
 @dataclass( frozen = True, order = True )
 class Token():
     _type: str
@@ -63,3 +67,8 @@ def tokenize( code, keywords = {}, specifications = [] ):
             raise RuntimeError( f'{value!r} unexpected on line {line_num}' )
 
         yield Token( kind, value, line_num, column )
+
+
+# We gotta be included!
+if __name__ == '__main__':
+    pass

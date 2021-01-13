@@ -1,10 +1,15 @@
+
+import math
 import operator
 from random import randrange
 
 from ..modular.tokenizer import tokenize
 
 
-class Roll:
+__all__ = [ "Roll", "Dice" ]
+
+
+class Roll( object ):
     """ Roll
     
     Handles returning a random number, given a count and size of dice.
@@ -18,12 +23,26 @@ class Roll:
 
     """
 
-    __slots__ = [ "_count", "_size" ]
+    __slots__ = [ "_count", "_sides" ]
 
 
-    def __init__( self, count, size ):
+    def __init__( self, count, sides ):
         self._count = count
-        self._size = size
+        self._sides = sides
+
+
+    def __str__( self ):
+        return str( self._count ) + "d" + str( self._sides )
+
+
+    def get_average( self ):
+        """ Average
+
+        Returns
+        -------
+        Average value of this dice roll
+        """
+        return math.floor( ( ( ( self._sides - 1 ) / 2 ) + 1 ) * self._count )
 
     
     def roll( self ):
@@ -37,7 +56,7 @@ class Roll:
         """
         t = 0
         for _ in range( 0, self._count ):
-            t += randrange( 0, self._size ) + 1
+            t += randrange( 0, self._sides ) + 1
         return t
 
 
@@ -100,8 +119,13 @@ class Dice:
         
 
 
-    def roll( self ):
+    def roll( self, average = False ):
         """ Roll
+
+        Parameters
+        ----------
+        bool Average
+            Should we roll, or get the average?
 
         Returns
         -------
@@ -115,7 +139,10 @@ class Dice:
 
         for i in range( 0, len( sequence ) ):
             if isinstance( sequence[ i ], Roll ):
-                sequence[ i ] = sequence[ i ].roll()
+                if not average:
+                    sequence[ i ] = sequence[ i ].roll()
+                else:
+                    sequence[ i ] = sequence[ i ].get_average()
 
         total = sequence[ 0 ]
         for i in range( 0, len( sequence ) ):
@@ -123,3 +150,8 @@ class Dice:
                 total = sequence[ i ]( total, sequence[ i + 1 ] )
 
         return total
+
+
+# We gotta be included!
+if __name__ == '__main__':
+    pass

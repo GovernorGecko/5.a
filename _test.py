@@ -16,30 +16,28 @@
 
 
     TODO
-    Encounter Tool
+    Display Information
+    Subtract HP
     Actions
-        Standard
-        Move
-            Types
-        Minor
     Disablers
-        What affect actions?
-    Map?    
+    Map
 
 """
 
 import os
 
-from src.core.character import Character
 from src.core.dice import Dice
 from src.core.encounter import Encounter
+from src.core.monster import Monster
+from src.core.player import Player
+
 
 dir_path = os.path.dirname( os.path.realpath( __file__ ) )
 
 e = Encounter()
-e.add( Character( "Goblin", Dice( "d20+2" ) ) )
-e.add( Character( "Orc", Dice( "d20" ) ) )
-c = Character( "Lizard", Dice( "d20+1" ), False )
+e.add( Monster( "Goblin", Dice( "d20+2" ) ) )
+e.add( Monster( "Orc", Dice( "d20" ) ) )
+c = Player( "Lizard", Dice( "d20+1" ), False )
 e.add( c )
 cs = e.get_unmanaged_characters()
 cs[ 0 ].initiative = 12
@@ -60,8 +58,11 @@ while True:
     elif i == "d":
         e.remove( character )
 
+    elif i == "a":
+        e.add( c )
 
-    e.step()
+    else:
+        e.step()
 
 """
 while True:

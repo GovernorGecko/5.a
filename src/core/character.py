@@ -2,6 +2,9 @@
 from .dice import Dice
 
 
+__all__ = [ "Character" ]
+
+
 class Character( object ):
     """ Character 
 
@@ -20,7 +23,7 @@ class Character( object ):
     __slots__ = [ "_dice_initiative", "_managed", "_name", "_uuid", "initiative" ]
 
 
-    def __init__( self, name, dice_initiative, managed = True ):
+    def __init__( self, name, dice_initiative, managed ):
         self._dice_initiative = dice_initiative
         self._managed = managed
         self._name = name
@@ -32,3 +35,8 @@ class Character( object ):
 
     def __str__( self ):
         return f"{self._name} {self.initiative} {self._uuid}"
+
+
+# We gotta be included!
+if __name__ == '__main__':
+    pass
