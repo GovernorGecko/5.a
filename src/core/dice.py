@@ -6,11 +6,11 @@ from random import randrange
 from ..modular.tokenizer import tokenize
 
 
-__all__ = [ "Roll", "Dice" ]
+__all__ = [ "Dice", "DiceToken" ]
 
 
-class Roll( object ):
-    """ Roll
+class Dice( object ):
+    """ Dice
     
     Handles returning a random number, given a count and size of dice.
 
@@ -18,7 +18,7 @@ class Roll( object ):
     ----------
     count Int
         Number of dice
-    size Int
+    sides Int
         Numbers on the dice
 
     """
@@ -60,8 +60,10 @@ class Roll( object ):
         return t
 
 
-class Dice:
-    """ Dice
+class DiceToken:
+    """ DiceToken
+
+    A sequence of dice rolls and numbers.
 
     Parameters
     ----------
@@ -95,7 +97,7 @@ class Dice:
                 if len( self._sequence ) and type( self._sequence[ len( self._sequence ) - 1 ] ) in ( int, tuple ):
                     self._sequence.append( operator.add )
                 
-                self._sequence.append( Roll( int( dice_split[ 0 ] ), int( dice_split[ 1 ] ) ) )
+                self._sequence.append( Dice( int( dice_split[ 0 ] ), int( dice_split[ 1 ] ) ) )
 
             # For operation we only care about add and subtract.
             elif token._type == "OP":
@@ -138,7 +140,7 @@ class Dice:
         sequence = self._sequence.copy()
 
         for i in range( 0, len( sequence ) ):
-            if isinstance( sequence[ i ], Roll ):
+            if isinstance( sequence[ i ], Dice ):
                 if not average:
                     sequence[ i ] = sequence[ i ].roll()
                 else:

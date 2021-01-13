@@ -26,7 +26,6 @@
 
 import os
 
-from src.core.dice import Dice
 from src.core.encounter import Encounter
 from src.core.monster import Monster
 from src.core.player import Player
@@ -35,9 +34,9 @@ from src.core.player import Player
 dir_path = os.path.dirname( os.path.realpath( __file__ ) )
 
 e = Encounter()
-e.add( Monster( "Goblin", Dice( "d20+2" ) ) )
-e.add( Monster( "Orc", Dice( "d20" ) ) )
-c = Player( "Lizard", Dice( "d20+1" ), False )
+e.add( Monster( "Goblin", "d20+2" ) )
+e.add( Monster( "Orc", "d20" ) )
+c = Player( "Lizard", "d20+1" ) 
 e.add( c )
 cs = e.get_unmanaged_characters()
 cs[ 0 ].initiative = 12

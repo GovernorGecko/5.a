@@ -136,7 +136,7 @@ class Encounter( object ):
         # Iterate our characters, rolling init on managed characters
         for character in self.__characters:
             if character._managed:
-                character.initiative = character._dice_initiative.roll()
+                character.initiative = character.roll_initiative()
 
         # Sort our Characters by Initiative
         self.__characters.sort( key = operator.attrgetter( "initiative" ), reverse = True )
