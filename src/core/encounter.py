@@ -5,6 +5,9 @@ import uuid
 from .character import Character
 
 
+__all__ = [ "Encounter" ]
+
+
 class Encounter( object ):
     """ An Encounter, involving Characters
     
@@ -133,7 +136,7 @@ class Encounter( object ):
         # Iterate our characters, rolling init on managed characters
         for character in self.__characters:
             if character._managed:
-                character.initiative = character._dice_initiative.roll()
+                character.initiative = character.roll_initiative()
 
         # Sort our Characters by Initiative
         self.__characters.sort( key = operator.attrgetter( "initiative" ), reverse = True )
@@ -154,10 +157,13 @@ class Encounter( object ):
 
         """
 
-        # Iterate, trying to remove.
+        # Remove, if exists.
         if character in self.__characters:
             self.__characters.remove( character )
             return True, ""
+
+        if self._running and not self.has_characters():
+            self._running = False
 
         # No workie
         return False, "Character not found."
@@ -167,7 +173,10 @@ class Encounter( object ):
         """ Step through the turns.
 
         """
-        self.__turn = self.__turn + 1
+        if not self._running:
+            return False
+
+        self.__turn += 1
         if self.__turn >= len( self.__characters ):
             self.__turn = 0
 
@@ -177,3 +186,8 @@ class Encounter( object ):
 
         """
         self._running = False
+
+
+# We gotta be included!
+if __name__ == '__main__':
+    pass
